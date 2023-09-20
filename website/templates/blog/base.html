@@ -45,13 +45,13 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="/about/">About</a>
+                    <a href="{% url 'about'%}">About</a>
                 </li>
                 <li>
-                    <a href="/services/">Services</a>
+                    <a href="{% url 'services'%}">Services</a>
                 </li>
                 <li>
-                    <a href="/contact/">Contact</a>
+                    <a href="{% url 'contact'%}">Contact</a>
                 </li>
             </ul>
         </div>
@@ -71,36 +71,38 @@
         <!-- Blog Sidebar Widgets Column -->
         <div class="col-md-4">
             <!-- Blog Search Well -->
-            <div class="well">
-                <h4>Blog Search</h4>
-                <div class="input-group">
-                    <input type="text" class="form-control">
-                    <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                        </span>
-                </div>
-                <!-- /.input-group -->
-            </div>
+            <!-- Blog Search Well -->
+<div class="well">
+    <h4>Blog Search</h4>
+    <form method="GET" action="{% url 'search' %}" class="input-group"> <!-- Обернуть форму в input-group -->
+        {% csrf_token %}
+        <input type="text" name="query" class="form-control">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </form>
+</div>
+
+
+
             <!-- Blog Categories Well -->
             <div class="well">
                 <h4>Blog Categories</h4>
                 <div class="row">
                     <div class="col-lg-6">
                         <ul class="list-unstyled">
-                            <li><a href="#">Category Name</a></li>
-                            <li><a href="#">Category Name</a></li>
-                            <li><a href="#">Category Name</a></li>
-                            <li><a href="#">Category Name</a></li>
+                          {% for c in cat1 %}
+                          <li><a href="{% url 'category' name=c.name %}">{{ c.name }}</a></li>
+                          {% endfor %}
                         </ul>
                     </div>
                     <div class="col-lg-6">
                         <ul class="list-unstyled">
-                            <li><a href="#">Category Name</a></li>
-                            <li><a href="#">Category Name</a></li>
-                            <li><a href="#">Category Name</a></li>
-                            <li><a href="#">Category Name</a></li>
+                          {% for c in cat2 %}
+                          <li><a href="{% url 'category' name=c.name %}">{{ c.name }}</a></li>
+                          {% endfor %}
                         </ul>
                     </div>
                 </div>
