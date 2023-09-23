@@ -1,6 +1,8 @@
 import random
 
 from django.shortcuts import render, get_object_or_404
+from django.utils.timezone import now
+
 from .models import Post, Category
 from django.db.models import Q
 from .forms import PostForm
@@ -72,5 +74,13 @@ def search(request):
 
 def create(request):
     form = PostForm()
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.published_date = now()
+            post.save()
+            return index(request)
     context = {'form': form}
     return render(request, "blog/create.html", context=context)

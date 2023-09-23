@@ -4,24 +4,6 @@
     Page Heading
     <small>Secondary Text</small>
 </h1>
-<!--&lt;!&ndash;Blog Post &ndash;&gt;-->
-<!--{% for post in fposts %}-->
-<!--<h2>-->
-<!--    <a href="post.html">{{fpost.title}}</a>-->
-<!--</h2>-->
-<!--<p class="lead">-->
-<!--    by <a href="index.php">{{fpost.user}}</a>-->
-<!--</p>-->
-<!--<p><span class="glyphicon glyphicon-time"></span> Posted on {{fpost.published_date}}</p>-->
-<!--<hr>-->
-<!--<img class="img-responsive" src={{post.image}} alt="">-->
-<!--<hr>-->
-<!--<p>{{fpost.content}}</p>-->
-<!--<a class="btn btn-primary" href="post">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>-->
-
-
-<!--<hr>-->
-{% endfor %}
 
 <!--Blog Post -->
 {% for post in posts %}
@@ -35,7 +17,7 @@
 <hr>
 <a href="{% url 'post' id=post.id%}"><img class="img-responsive" src={{post.image}} alt=""></a>
 <hr>
-<p>{{post.content|truncatewords:24}}</p>
+<p>{{post.content|truncatewords:12}}</p>
 <a class="btn btn-primary" href="post">Read More <span
         class="glyphicon glyphicon-chevron-right"></span></a>
 
