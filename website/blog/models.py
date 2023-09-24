@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Comment(models.Model):
+    post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, default=1)
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
     datetime = models.DateTimeField(auto_now_add=True, verbose_name="Дата та час")
     text = models.TextField(verbose_name="Коментар")
@@ -32,7 +33,8 @@ class Post(models.Model):
     published_date = models.DateTimeField(auto_created=True, verbose_name="Дата та час")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категорія")
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
-    comments = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name="Коментарі", null=True)
+    comments = models.ManyToManyField(Comment, blank=True, verbose_name="Коментарі",
+                                      related_name='post_comments')
     image = models.URLField(default="http://placehold.it/900x300")
 
     def __str__(self):

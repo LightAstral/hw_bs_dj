@@ -3,7 +3,7 @@ import random
 from django.shortcuts import render, get_object_or_404
 from django.utils.timezone import now
 
-from .models import Post, Category
+from .models import Post, Category, Comment
 from django.db.models import Q
 from .forms import PostForm
 
@@ -31,15 +31,16 @@ def index(request):
     context = {'posts': posts}
     context.update(get_categories())
 
-    return render(request, "blog/index.html", context=context)
+    return render(request, 'blog/index.html', context=context)
 
 
 def post(request, id=None):
     post = get_object_or_404(Post, pk=id)
-    context = {"post": post}
+    comments = Comment.objects.filter(post=post)
+    context = {"post": post, "comments": comments}
     context.update(get_categories())
 
-    return render(request, "blog/post.html", context=context)
+    return render(request, 'blog/post.html', context=context)
 
 
 def category(request, name=None):
@@ -48,19 +49,19 @@ def category(request, name=None):
     context = {"posts": posts}
     context.update(get_categories())
 
-    return render(request, "blog/index.html", context=context)
+    return render(request, 'blog/index.html', context=context)
 
 
 def about(request):
-    return render(request, "blog/about.html")
+    return render(request, 'blog/about.html')
 
 
 def contact(request):
-    return render(request, "blog/contact.html")
+    return render(request, 'blog/contact.html')
 
 
 def services(request):
-    return render(request, "blog/services.html")
+    return render(request, 'blog/services.html')
 
 
 def search(request):
@@ -69,7 +70,7 @@ def search(request):
     context = {"posts": posts}
     context.update(get_categories())
 
-    return render(request, "blog/index.html", context=context)
+    return render(request, 'blog/index.html', context=context)
 
 
 def create(request):
@@ -83,4 +84,24 @@ def create(request):
             post.save()
             return index(request)
     context = {'form': form}
-    return render(request, "blog/create.html", context=context)
+    return render(request, 'blog/create.html', context=context)
+
+
+def add_comment(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        if text:
+            comment = Comment.objects.create(author=request.user if request.user.is_authenticated else None, text=text)
+            post.comments.add(comment)  # Добавляем комментарий к посту
+            comments = Comment.objects.filter(post_comments=post)  # Получаем комментарии для данного поста
+            context = {"post": post, "comments": comments}
+            context.update(get_categories())
+            return render(request, "blog/post.html", context=context)
+
+    comments = Comment.objects.filter(post_comments=post)  # Получаем комментарии для данного поста
+    context = {"post": post, "comments": comments}
+    context.update(get_categories())
+    return render(request, "blog/post.html", context=context)
+
