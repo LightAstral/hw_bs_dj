@@ -95,33 +95,15 @@ def add_comment(request, post_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.post = post  # Устанавливаем связь с постом
+            comment.post = post
             comment.author = request.user if request.user.is_authenticated else None
             comment.save()
             return render(request, "blog/post.html", context={'post': post, 'comments': post.comments.all()})
 
-    # В случае GET запроса или если форма не прошла валидацию, нужно вернуть форму и комментарии
     comments = Comment.objects.filter(post=post)
     comment_form = CommentForm()
     context = {"post": post, "comments": comments, 'comment_form': comment_form}
     context.update(get_categories())
     return render(request, "blog/post.html", context=context)
 
-# def add_comment(request, post_id):
-#     post = get_object_or_404(Post, pk=post_id)
-#
-#     if request.method == 'POST':
-#         text = request.POST.get('text')
-#         if text:
-#             comment = Comment.objects.create(author=request.user if request.user.is_authenticated else None, text=text)
-#             post.comments.add(comment)  # Добавляем комментарий к посту
-#             comments = Comment.objects.filter(post_comments=post)  # Получаем комментарии для данного поста
-#             context = {"post": post, "comments": comments}
-#             context.update(get_categories())
-#             return render(request, "blog/post.html", context=context)
-#
-#     comments = Comment.objects.filter(post_comments=post)  # Получаем комментарии для данного поста
-#     context = {"post": post, "comments": comments}
-#     context.update(get_categories())
-#     return render(request, "blog/post.html", context=context)
 
