@@ -53,8 +53,14 @@
                 <li>
                     <a href="{% url 'contact'%}">Contact</a>
                 </li>
-            </ul>
+                {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'create' %}">Create post</a>
+                </li>
+                {% endif %}
+            </ul> {% include "blog/toggle_login.html"%}
         </div>
+
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->

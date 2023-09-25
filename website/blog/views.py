@@ -92,6 +92,7 @@ def create(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.published_date = now()
+            post.user = request.user
             post.save()
             return index(request)
     context = {'form': form}

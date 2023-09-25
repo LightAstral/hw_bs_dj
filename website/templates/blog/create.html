@@ -4,6 +4,6 @@
     <form action="{% url 'create' %}" method="POST">
         {% csrf_token %}
         {{form | crispy}}
-        <input type="submit" value="save" class="btn btn-default">
+        <input type="submit" value="Зберегти" class="btn btn-default">
     </form>
 {% endblock %}
