@@ -1,5 +1,6 @@
 import random
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django.utils.timezone import now
 
@@ -16,8 +17,16 @@ def dummy():
 def get_categories():
     all = Category.objects.all()
     count = all.count()
-    half = count // 2 + 1
+    half = count // 2
+    if count % 2 != 0:
+        half += 1
     return {"cat1": all[:half], "cat2": all[half:]}
+
+# def get_categories():
+#     all = Category.objects.all()
+#     count = all.count()
+#     half = count // 2 + 1
+#     return {"cat1": all[:half], "cat2": all[half:]}
 
 
 def index(request):
@@ -74,6 +83,7 @@ def search(request):
     return render(request, 'blog/index.html', context=context)
 
 
+@login_required
 def create(request):
     form = PostForm()
     if request.method == 'POST':
@@ -105,5 +115,3 @@ def add_comment(request, post_id):
     context = {"post": post, "comments": comments, 'comment_form': comment_form}
     context.update(get_categories())
     return render(request, "blog/post.html", context=context)
-
-
