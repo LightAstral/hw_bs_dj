@@ -1,0 +1,8 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  <h2>User Profile</h2>
+  <p><strong>Username:</strong> {{ user_profile.username }}</p>
+  <p><strong>Email:</strong> {{ user_profile.email }}</p>
+  <p><strong>Date Joined:</strong> {{ user_profile.date_joined }}</p>
+{% endblock %}

@@ -116,3 +116,10 @@ def add_comment(request, post_id):
     context = {"post": post, "comments": comments, 'comment_form': comment_form}
     context.update(get_categories())
     return render(request, "blog/post.html", context=context)
+
+
+@login_required
+def user_profile(request):
+    user = request.user
+    context = {'user_profile': user}
+    return render(request, 'blog/user_profile.html', context=context)

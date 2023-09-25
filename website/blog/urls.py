@@ -14,4 +14,5 @@ urlpatterns = [
     path('blog/post<int:post_id>/add_comment', views.add_comment, name='add_comment'),
     path('blog/login', LoginView.as_view(), name='blog_login'),
     path('blog/logout', LogoutView.as_view(), name='blog_logout'),
+    path('blog/user_profile/', views.user_profile, name='user_profile'),
 ]
