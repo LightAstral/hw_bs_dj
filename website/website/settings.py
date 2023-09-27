@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'blog',
     'crispy_forms',
     'crispy_bootstrap5',
+    'gallery',
+    'easy_thumbnails',
+
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -131,3 +134,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "main"
 LOGIN_URL = "blog_login"
 LOGOUT_URL = "blog_logout"
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_URL = "/media/"

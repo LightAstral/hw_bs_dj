@@ -121,5 +121,5 @@ def add_comment(request, post_id):
 @login_required
 def user_profile(request):
     user = request.user
-    context = {'user_profile': user}
+    context = {'user_profile': user, 'user_last_name': user.last_name}
     return render(request, 'blog/user_profile.html', context=context)
