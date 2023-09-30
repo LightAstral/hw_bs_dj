@@ -27,10 +27,6 @@ class Category(models.Model):
         verbose_name_plural = "Категорії"
 
 
-from django.db import models
-from django.contrib.auth.models import User
-
-
 class Post(models.Model):
     title = models.CharField(max_length=30, verbose_name="Заголовок")
     content = models.TextField(verbose_name="Опис")
@@ -55,3 +51,5 @@ class Photo(models.Model):
 
     def __str__(self):
         return self.description
+
+
