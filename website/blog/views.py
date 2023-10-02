@@ -10,6 +10,7 @@ from django.db.models import Q
 from .forms import PostForm, CommentForm, UserProfileForm
 from django import forms
 
+
 # Create your views here.
 def dummy():
     return str(random.randint(1, 10))
@@ -139,6 +140,8 @@ def edit_profile(request):
         form = UserProfileForm(instance=user_profile)
 
     return render(request, 'blog/edit_profile.html', {'form': form})
+
+
 @login_required
 def private_message(request, username):
     if request.method == 'POST':
