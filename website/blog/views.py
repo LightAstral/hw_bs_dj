@@ -1,13 +1,14 @@
 import random
 
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import now
 
-from .models import Post, Category, Comment
+from .models import Post, Category, Comment, UserProfile
 from django.db.models import Q
-from .forms import PostForm, CommentForm
-
+from .forms import PostForm, CommentForm, UserProfileForm
+from django import forms
 
 # Create your views here.
 def dummy():
@@ -21,6 +22,7 @@ def get_categories():
     if count % 2 != 0:
         half += 1
     return {"cat1": all[:half], "cat2": all[half:]}
+
 
 # def get_categories():
 #     all = Category.objects.all()
@@ -121,5 +123,29 @@ def add_comment(request, post_id):
 @login_required
 def user_profile(request):
     user = request.user
-    context = {'user_profile': user, 'user_last_name': user.last_name}
-    return render(request, 'blog/user_profile.html', context=context)
+    return render(request, 'blog/user_profile.html', {'user': user})
+
+
+@login_required
+def edit_profile(request):
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('user_profile')
+    else:
+        form = UserProfileForm(instance=user_profile)
+
+    return render(request, 'blog/edit_profile.html', {'form': form})
+@login_required
+def private_message(request, username):
+    if request.method == 'POST':
+        pass
+    else:
+        recipient = User.objects.get(username=username)
+        context = {
+            'recipient': recipient,
+        }
+        return render(request, 'blog/private_message.html', context)

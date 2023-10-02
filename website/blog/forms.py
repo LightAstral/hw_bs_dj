@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, Photo
+from .models import Post, Comment, Photo, User
 
 
 class PostForm(forms.ModelForm):
@@ -18,3 +18,9 @@ class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
         fields = '__all__'
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']

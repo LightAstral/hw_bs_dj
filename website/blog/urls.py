@@ -15,4 +15,6 @@ urlpatterns = [
     path('blog/login', LoginView.as_view(), name='blog_login'),
     path('blog/logout', LogoutView.as_view(), name='blog_logout'),
     path('blog/user_profile/', views.user_profile, name='user_profile'),
+    path('blog/edit_profile/', views.edit_profile, name='edit_profile'),
+    path('blog/private_message/<str:username>/', views.private_message, name='private_message'),
 ]

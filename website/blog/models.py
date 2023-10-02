@@ -34,7 +34,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категорія")
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
     comments = models.ManyToManyField(Comment, blank=True, verbose_name="Коментарі", related_name='post_comments')
-    image = models.ImageField(upload_to='uploads/post', verbose_name="Зображення")  # Поле для изображения
+    image = models.ImageField(upload_to='uploads/post', verbose_name="Зображення")
 
     def __str__(self):
         return self.title
@@ -53,3 +53,18 @@ class Photo(models.Model):
         return self.description
 
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    comment_count = models.IntegerField(default=0)
+    post_count = models.IntegerField(default=0)
+    forum_posts = models.IntegerField(default=0)
+    blog_posts = models.IntegerField(default=0)
+    days_on_site = models.IntegerField(default=0)
+    reputation = models.IntegerField(default=0)
+
+
+    def __str__(self):
+        return self.user.username
